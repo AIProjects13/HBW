@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HBW Live Call Assistant</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= TOP BAR ================= -->
+<header class="topbar">
+  <div class="topbar__brand" id="brandHome" title="Back to start">
+    <span class="topbar__logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 2 2 9.5V21h6v-7h8v7h6V9.5L12 2z"/></svg>
+    </span>
+    <div class="topbar__title">
+      <span class="topbar__name">HBW Live Call Assistant</span>
+      <span class="topbar__sub" id="callBadge">No active call</span>
+    </div>
+  </div>
+
+  <div class="topbar__timer" id="timerWrap" hidden>
+    <span class="dot-pulse" aria-hidden="true"></span>
+    <span id="timerText">00:00</span>
+  </div>
+
+  <nav class="topbar__actions">
+    <button class="pill-btn pill-btn--rebuttal" id="btnRebuttals" type="button">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 3a9 9 0 0 0-9 9c0 1.6.43 3.1 1.18 4.39L3 21l4.75-1.16A9 9 0 1 0 12 3zm0 16a7 7 0 0 1-3.58-.98l-.26-.15-2.82.69.7-2.75-.17-.28A7 7 0 1 1 12 19zm3.86-5.24c-.2-.1-1.2-.6-1.39-.66-.19-.07-.32-.1-.46.1-.14.2-.53.66-.65.8-.12.14-.24.15-.44.05-.2-.1-.86-.32-1.63-1.02-.6-.54-1.01-1.2-1.13-1.4-.12-.2-.01-.31.09-.4.1-.1.2-.25.3-.37.1-.12.13-.2.2-.34.07-.14.03-.26-.02-.36-.05-.1-.46-1.1-.63-1.5-.17-.4-.34-.34-.46-.35h-.4c-.14 0-.36.05-.55.26-.19.2-.72.7-.72 1.72s.74 2 .84 2.14c.1.14 1.45 2.2 3.5 3.09.49.21.87.34 1.17.43.49.16.94.14 1.29.08.39-.06 1.2-.49 1.37-.96.17-.47.17-.87.12-.96-.05-.1-.18-.15-.38-.25z"/></svg>
+      <span class="pill-btn__label">Rebuttals</span>
+    </button>
+    <button class="pill-btn pill-btn--disposition" id="btnDispositions" type="button">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+      <span class="pill-btn__label">Dispositions</span>
+    </button>
+    <button class="pill-btn pill-btn--summary" id="btnSummaryNav" type="button">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      <span class="pill-btn__label">Summary</span>
+    </button>
+  </nav>
+</header>
+
+<!-- ================= MAIN ================= -->
+<main class="app-main">
+
+  <!-- ---------- START SCREEN ---------- -->
+  <section class="screen" id="screen-start">
+    <div class="hero fade-in-up">
+      <h1>Ready when you are.</h1>
+      <p class="hero__sub">Take a breath, then pick the campaign you’re working right now.</p>
+    </div>
+
+    <div id="resumeBanner" class="resume-banner" hidden>
+      <div class="resume-banner__text">
+        <strong id="resumeTitle">Resume call in progress</strong>
+        <span id="resumeSub"></span>
+      </div>
+      <div class="resume-banner__actions">
+        <button class="btn btn--ghost" id="btnDiscardDraft" type="button">Discard</button>
+        <button class="btn btn--primary" id="btnResumeDraft" type="button">Resume Call</button>
+      </div>
+    </div>
+
+    <div class="campaign-grid">
+      <button class="campaign-card campaign-card--home fade-in-up d1" id="cardHome" type="button">
+        <span class="campaign-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="34" height="34"><path fill="currentColor" d="M12 2 2 9.5V21h6v-7h8v7h6V9.5L12 2z"/></svg>
+        </span>
+        <span class="campaign-card__title">Home Call</span>
+        <span class="campaign-card__desc">HBW Home Campaign live call script &amp; lead capture</span>
+      </button>
+
+      <button class="campaign-card campaign-card--auto fade-in-up d2" id="cardAuto" type="button">
+        <span class="campaign-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="34" height="34"><path fill="currentColor" d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.22.42-1.42 1.01L3 12v8a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1h12v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-8l-2.08-5.99zM6.5 16A1.5 1.5 0 1 1 6.5 13a1.5 1.5 0 0 1 0 3zm11 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+        </span>
+        <span class="campaign-card__title">Auto Call</span>
+        <span class="campaign-card__desc">HBW Auto Campaign live call script &amp; lead capture</span>
+      </button>
+    </div>
+
+    <div class="start-footnote fade-in-up d3">
+      Need a quick answer? <button class="link-btn" id="btnRebuttalsInline" type="button">Open Rebuttals</button> or
+      <button class="link-btn" id="btnDispositionsInline" type="button">Dispositions</button> anytime — they float above your work and never lose your place.
+    </div>
+  </section>
+
+  <!-- ---------- CALL SCREEN ---------- -->
+  <section class="screen" id="screen-call">
+    <div class="call-header">
+      <div class="call-header__left">
+        <span class="call-type-chip" id="callTypeChip">Home Call</span>
+        <div class="progress-wrap">
+          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+          <span class="progress-label" id="progressLabel">0 / 0 answered</span>
+        </div>
+      </div>
+      <div class="call-header__actions">
+        <button class="btn btn--ghost btn--sm" id="btnCancelCall" type="button">Cancel Call</button>
+        <button class="btn btn--primary btn--sm" id="btnFinishCall" type="button">Finish Call</button>
+      </div>
+    </div>
+
+    <form id="callForm" class="call-form" autocomplete="off"></form>
+
+    <div class="call-footer">
+      <button class="btn btn--ghost" id="btnCancelCall2" type="button">Cancel Call</button>
+      <button class="btn btn--primary btn--lg" id="btnFinishCall2" type="button">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+        Finish Call &amp; Save Summary
+      </button>
+    </div>
+  </section>
+
+  <!-- ---------- SUMMARY SCREEN ---------- -->
+  <section class="screen" id="screen-summary">
+    <div class="summary-header fade-in-up">
+      <h1>Call Summaries</h1>
+      <p class="hero__sub">Only your current and previous call are kept — nothing older, nothing saved to a server.</p>
+    </div>
+    <div class="summary-grid" id="summaryGrid"></div>
+    <div class="summary-footer">
+      <button class="btn btn--primary" id="btnBackToStart" type="button">Back to Start</button>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= MODALS ================= -->
+<div class="modal-overlay" id="modalRebuttals" hidden>
+  <div class="modal modal--rebuttals" role="dialog" aria-modal="true" aria-labelledby="rebuttalsTitle">
+    <div class="modal__header">
+      <h2 id="rebuttalsTitle">Common Objections &amp; Rebuttals</h2>
+      <button class="modal__close" type="button" data-close-modal aria-label="Close">&times;</button>
+    </div>
+    <p class="modal__note" id="rebuttalsNote"></p>
+    <input class="modal__search" type="search" id="rebuttalsSearch" placeholder="Search an objection…">
+    <div class="modal__body" id="rebuttalsList"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalDispositions" hidden>
+  <div class="modal modal--dispositions" role="dialog" aria-modal="true" aria-labelledby="dispositionsTitle">
+    <div class="modal__header">
+      <h2 id="dispositionsTitle">Dispositions</h2>
+      <button class="modal__close" type="button" data-close-modal aria-label="Close">&times;</button>
+    </div>
+    <input class="modal__search" type="search" id="dispositionsSearch" placeholder="Search a code or description…">
+    <div class="modal__body" id="dispositionsList"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalConfirm" hidden>
+  <div class="modal modal--confirm" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <h2 id="confirmTitle">Are you sure?</h2>
+    <p id="confirmBody"></p>
+    <div class="modal__confirm-actions">
+      <button class="btn btn--ghost" id="confirmCancel" type="button">Cancel</button>
+      <button class="btn btn--danger" id="confirmOk" type="button">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= TOAST ================= -->
+<div class="toast" id="toast" hidden>
+  <span class="toast__icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+  </span>
+  <span id="toastText">Saved</span>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
